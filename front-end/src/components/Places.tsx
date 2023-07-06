@@ -1,9 +1,5 @@
 /* eslint-disable no-undef */
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from 'use-places-autocomplete'
-
+import { MapContext } from '@/Context/useMapContext'
 import {
   Combobox,
   ComboboxInput,
@@ -11,13 +7,20 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox'
+import { useContext } from 'react'
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from 'use-places-autocomplete'
 
-type PlaceProps = {
-  setOffice: (position: google.maps.LatLngLiteral) => void
+type PlacesProps = {
+  setOffice: (positios: google.maps.LatLngLiteral) => void
 }
 
-export function Places({ setOffice }: PlaceProps) {
+export function Places(p: PlacesProps) {
+  const { setOffice } = useContext(MapContext)
   const {
+    ready,
     value,
     setValue,
     suggestions: { status, data },
@@ -25,12 +28,13 @@ export function Places({ setOffice }: PlaceProps) {
   } = usePlacesAutocomplete()
 
   const handleSelect = async (value: string) => {
-    setValue(value, false)
+    setValue(value)
     clearSuggestions()
 
     const results = await getGeocode({ address: value })
-    const { lat, lng } = await getLatLng(results[0])
+    const { lat, lng } = getLatLng(results[0])
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     setOffice({ lat, lng })
   }
 
@@ -44,7 +48,7 @@ export function Places({ setOffice }: PlaceProps) {
         className="w-full p-1"
         placeholder="Pesquisa seu destino"
       />
-      <ComboboxPopover>
+      <ComboboxPopover className="bg-blue-900">
         <ComboboxList>
           {status === 'OK' &&
             data.map(({ place_id, description }) => (
@@ -55,5 +59,3 @@ export function Places({ setOffice }: PlaceProps) {
     </Combobox>
   )
 }
-
-// className="h-10 max-w-[90%] rounded-full px-4 shadow-lg focus:outline-none"

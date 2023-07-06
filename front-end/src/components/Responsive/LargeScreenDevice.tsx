@@ -35,7 +35,7 @@ export function LargeScreenDevice({ children }: { children: ReactNode }) {
         {children}
       </div>
 
-      <div className="flex h-screen flex-1">
+      <div className="flex h-screen w-full flex-1">
         <Map />
       </div>
     </div>

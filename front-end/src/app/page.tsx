@@ -1,14 +1,13 @@
 /* eslint-disable no-undef */
 'use client'
 import { SaveRouterButton } from '@/components/SaveRouteButton'
-import { useMapContext } from '@/Context/useMapContext'
+import { MapContext, useMapContext } from '@/Context/useMapContext'
 import { Places } from '@/components/Places'
 import { Distance } from '@/components/Distance'
+import { useContext } from 'react'
 
 export default function Home() {
-  const { setOffice } = useMapContext()
-
-  const { mapRef, office, directions } = useMapContext()
+  const { mapRef, office, directions, setOffice } = useContext(MapContext)
 
   return (
     <>

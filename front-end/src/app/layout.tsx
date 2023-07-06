@@ -7,7 +7,6 @@ import './globals.css'
 import { useMedia } from '@/Hooks/useMedia'
 import { LargeScreenDevice } from '@/components/Responsive/LargeScreenDevice'
 import { SmallScreenDevice } from '@/components/Responsive/SmallScreenDevice'
-import { useLoadScript, useJsApiLoader } from '@react-google-maps/api'
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -22,14 +21,7 @@ const archivoBlack = Archivo_Black({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const isMobile = useMedia('(max-width: 820px)')
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyAmS5aPq50VpSPqmKnXPNfNRD14ArJU-ZQ',
-    libraries: ['places'],
-  })
 
-  console.log({ isLoaded })
-
-  if (!isLoaded) return <p>Carregando...</p>
   return (
     <html lang="pt">
       <body
